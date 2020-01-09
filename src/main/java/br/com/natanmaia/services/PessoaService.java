@@ -22,7 +22,8 @@ public class PessoaService {
 	
 	public Pessoa atualizar(Pessoa pessoa) {
 		Pessoa entity = repository.findById(pessoa.getId())
-				.orElseThrow(() -> new ResourceNotFoundException("Sem resultados para esse ID!"));
+				.orElseThrow(() -> 
+				new ResourceNotFoundException("Sem resultados para esse ID!"));
 		entity.setNome(pessoa.getNome());
 		entity.setSobrenome(pessoa.getSobrenome());
 		entity.setEndereco(pessoa.getEndereco());
@@ -32,7 +33,8 @@ public class PessoaService {
 	
 	public void deletar(Long id) {
 		Pessoa entity = repository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Sem resultados para esse ID!"));
+				.orElseThrow(() -> 
+				new ResourceNotFoundException("Sem resultados para esse ID!"));
 		repository.delete(entity);
 	}
 

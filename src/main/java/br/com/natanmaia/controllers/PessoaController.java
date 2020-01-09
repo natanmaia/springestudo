@@ -24,7 +24,7 @@ public class PessoaController {
 			method = RequestMethod.GET, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public Pessoa buscarPorId(
-			@PathVariable("id") String id) {
+			@PathVariable("id") Long id) {
 		
 		return pessoaService.buscarPorId(id);
 		
@@ -58,7 +58,7 @@ public class PessoaController {
 	
 	@RequestMapping(value = "/{id}",
 			method = RequestMethod.DELETE)
-	public void deletar(@PathVariable("id") String id) {
+	public void deletar(@PathVariable("id") Long id) {
 		
 		pessoaService.deletar(id);
 		
