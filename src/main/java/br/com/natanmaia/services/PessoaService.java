@@ -12,6 +12,20 @@ import br.com.natanmaia.models.Pessoa;
 public class PessoaService {
 	
 	private final AtomicLong counter = new AtomicLong();
+	
+	public Pessoa criar(Pessoa pessoa) {
+		
+		return pessoa;
+	}
+	
+	public Pessoa atualizar(Pessoa pessoa) {
+		
+		return pessoa;
+	}
+	
+	public void deletar(String id) {
+		
+	}
 
 	public Pessoa buscarPorId(String id) {
 		Pessoa pessoa = new Pessoa();
