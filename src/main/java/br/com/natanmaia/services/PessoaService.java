@@ -1,58 +1,48 @@
 package br.com.natanmaia.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.natanmaia.models.Pessoa;
+import br.com.natanmaia.repository.PessoaRepository;
 
 @Service
 public class PessoaService {
 	
-	private final AtomicLong counter = new AtomicLong();
+	@Autowired
+	PessoaRepository repository;
 	
 	public Pessoa criar(Pessoa pessoa) {
-		
+		repository.save(pessoa);
 		return pessoa;
 	}
 	
 	public Pessoa atualizar(Pessoa pessoa) {
-		
-		return pessoa;
+		Pessoa entity = repository.findById(pessoa.getId())
+				.orElseThrow(() -> new ResourceNotFoundException("Sem resultados para esse ID!"));
+		entity.setNome(pessoa.getNome());
+		entity.setSobrenome(pessoa.getSobrenome());
+		entity.setEndereco(pessoa.getEndereco());
+		entity.setGenero(pessoa.getGenero());
+		return repository.save(entity);
 	}
 	
-	public void deletar(String id) {
-		
+	public void deletar(Long id) {
+		Pessoa entity = repository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("Sem resultados para esse ID!"));
+		repository.delete(entity);
 	}
 
-	public Pessoa buscarPorId(String id) {
-		Pessoa pessoa = new Pessoa();
-		pessoa.setId(counter.incrementAndGet());
-		pessoa.setNome("Natan");
-		pessoa.setSobrenome("Maia");
-		pessoa.setEndereco("Horizonte, Ceará");
-		pessoa.setGenero("Masculino");
-		return pessoa;
+	public Pessoa buscarPorId(Long id) {
+		return repository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException("Sem resultados para esse ID!"));
 	}
 	
 	public List<Pessoa> buscarTodos() {
-		List<Pessoa> pessoas = new ArrayList<Pessoa>();
-		for (int i = 0; i < 8; i++) {
-			Pessoa pessoa = mockPessoa(i);
-			pessoas.add(pessoa);
-		}
-		return pessoas;
+		return repository.findAll();
 	}
 
-	private Pessoa mockPessoa(int i) {
-		Pessoa pessoa = new Pessoa();
-		pessoa.setId(counter.incrementAndGet());
-		pessoa.setNome("Nome " + i);
-		pessoa.setSobrenome("Sobrenome " + 1);
-		pessoa.setEndereco("Endereço " + 1);
-		pessoa.setGenero("Genero");
-		return pessoa;
-	}
 }
