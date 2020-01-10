@@ -21,7 +21,7 @@ public class PessoaService {
 		var entity = DozerConverter.parseObject(pessoa, Pessoa.class);
 		var vo = DozerConverter.parseObject(repository.save(entity), PessoaVO.class);
 		return vo;
-	}
+	} 
 	
 	public PessoaVO atualizar(PessoaVO pessoa) {
 		var entity = repository.findById(pessoa.getId())
