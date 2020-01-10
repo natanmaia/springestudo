@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.natanmaia.models.Pessoa;
+import br.com.natanmaia.data.vo.PessoaVO;
 import br.com.natanmaia.services.PessoaService;
 
 @RestController
@@ -24,26 +24,26 @@ public class PessoaController {
 	private PessoaService pessoaService;
 	
 	@GetMapping("/{id}")
-	public Pessoa buscarPorId(@PathVariable("id") Long id) {
+	public PessoaVO buscarPorId(@PathVariable("id") Long id) {
 		return pessoaService.buscarPorId(id);
 		
 	}
 	
 	@GetMapping
-	public List<Pessoa> buscarTodos() {
+	public List<PessoaVO> buscarTodos() {
 		return pessoaService.buscarTodos();
 		
 	}
 	
 	@PostMapping
-	public Pessoa criar(@RequestBody Pessoa pessoa) {
-		return pessoaService.criar(pessoa);
+	public PessoaVO criar(@RequestBody PessoaVO pessoaVO) {
+		return pessoaService.criar(pessoaVO);
 		
 	}
 	
 	@PutMapping
-	public Pessoa atualizar(@RequestBody Pessoa pessoa) {
-		return pessoaService.criar(pessoa);
+	public PessoaVO atualizar(@RequestBody PessoaVO pessoaVO) {
+		return pessoaService.atualizar(pessoaVO);
 		
 	}
 	

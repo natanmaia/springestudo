@@ -1,36 +1,18 @@
-package br.com.natanmaia.models;
+package br.com.natanmaia.data.vo;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "pessoa")
-public class Pessoa implements Serializable{
+public class PessoaVO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable = false)
 	private String nome;
-	
 	private String sobrenome;
-	
-	@Column(nullable = false)
 	private String endereco;
-	
-	@Column(length = 10)
 	private String genero;
 	
-	public Pessoa() {
+	public PessoaVO() {
 		
 	}
 
@@ -94,7 +76,7 @@ public class Pessoa implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Pessoa other = (Pessoa) obj;
+		PessoaVO other = (PessoaVO) obj;
 		if (endereco == null) {
 			if (other.endereco != null)
 				return false;
@@ -122,7 +104,6 @@ public class Pessoa implements Serializable{
 			return false;
 		return true;
 	}
-	
 	
 
 }
