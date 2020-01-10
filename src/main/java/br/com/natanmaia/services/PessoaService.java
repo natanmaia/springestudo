@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import br.com.natanmaia.converter.DozerConverter;
 import br.com.natanmaia.data.models.Pessoa;
+import br.com.natanmaia.data.vo.PessoaVO;
 import br.com.natanmaia.repository.PessoaRepository;
 
 @Service
@@ -15,20 +17,24 @@ public class PessoaService {
 	@Autowired
 	PessoaRepository repository;
 	
-	public Pessoa criar(Pessoa pessoa) {
-		repository.save(pessoa);
-		return pessoa;
+	public PessoaVO criar(PessoaVO pessoa) {
+		var entity = DozerConverter.parseObject(pessoa, Pessoa.class);
+		var vo = DozerConverter.parseObject(repository.save(entity), PessoaVO.class);
+		return vo;
 	}
 	
-	public Pessoa atualizar(Pessoa pessoa) {
-		Pessoa entity = repository.findById(pessoa.getId())
+	public PessoaVO atualizar(PessoaVO pessoa) {
+		var entity = repository.findById(pessoa.getId())
 				.orElseThrow(() -> 
 				new ResourceNotFoundException("Sem resultados para esse ID!"));
+		
 		entity.setNome(pessoa.getNome());
 		entity.setSobrenome(pessoa.getSobrenome());
 		entity.setEndereco(pessoa.getEndereco());
 		entity.setGenero(pessoa.getGenero());
-		return repository.save(entity);
+		
+		var vo = DozerConverter.parseObject(repository.save(entity), PessoaVO.class);
+		return vo;
 	}
 	
 	public void deletar(Long id) {
@@ -38,13 +44,14 @@ public class PessoaService {
 		repository.delete(entity);
 	}
 
-	public Pessoa buscarPorId(Long id) {
-		return repository.findById(id).orElseThrow(
+	public PessoaVO buscarPorId(Long id) {
+		var entity = repository.findById(id).orElseThrow(
 				() -> new ResourceNotFoundException("Sem resultados para esse ID!"));
+		return DozerConverter.parseObject(repository.save(entity), PessoaVO.class);
 	}
 	
-	public List<Pessoa> buscarTodos() {
-		return repository.findAll();
+	public List<PessoaVO> buscarTodos() {
+		return DozerConverter.parseListObject(repository.findAll(), PessoaVO.class);
 	}
 
 }
