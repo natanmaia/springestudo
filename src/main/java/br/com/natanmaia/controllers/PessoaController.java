@@ -17,7 +17,7 @@ import br.com.natanmaia.data.vo.PessoaVO;
 import br.com.natanmaia.services.PessoaService;
 
 @RestController
-@RequestMapping("/pessoa/v1")
+@RequestMapping("/api/pessoa/v1")
 public class PessoaController {
 
 	@Autowired

@@ -2,6 +2,10 @@ package br.com.natanmaia.data.vo;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"id","endereco", "nome", "sobrenome", "genero"})
 public class PessoaVO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -10,6 +14,8 @@ public class PessoaVO implements Serializable{
 	private String nome;
 	private String sobrenome;
 	private String endereco;
+	
+	@JsonProperty("sexo")
 	private String genero;
 	
 	public PessoaVO() {
