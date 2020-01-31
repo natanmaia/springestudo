@@ -48,7 +48,7 @@ public class MockPessoa {
 		pessoa.setGenero(((number % 2) == 0) ? "Masculino" : "Feminino");
 		pessoa.setNome("Nome teste" + number);
 		pessoa.setSobrenome("Sobrenome teste" + number);
-		pessoa.setId(number.longValue());
+		pessoa.setKey(number.longValue());
 		return pessoa;
 	}
 }

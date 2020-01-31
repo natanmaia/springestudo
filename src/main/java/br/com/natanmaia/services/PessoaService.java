@@ -24,7 +24,7 @@ public class PessoaService {
 	} 
 	
 	public PessoaVO atualizar(PessoaVO pessoa) {
-		var entity = repository.findById(pessoa.getId())
+		var entity = repository.findById(pessoa.getKey())
 				.orElseThrow(() -> 
 				new ResourceNotFoundException("Sem resultados para esse ID!"));
 		

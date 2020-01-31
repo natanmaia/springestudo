@@ -2,15 +2,21 @@ package br.com.natanmaia.data.vo;
 
 import java.io.Serializable;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.github.dozermapper.core.Mapping;
+
 
 @JsonPropertyOrder({"id","endereco", "nome", "sobrenome", "genero"})
-public class PessoaVO implements Serializable{
+public class PessoaVO extends ResourceSupport implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
+	@Mapping("id")
+	@JsonProperty("id")
+	private Long key;
 	private String nome;
 	private String sobrenome;
 	private String endereco;
@@ -22,12 +28,12 @@ public class PessoaVO implements Serializable{
 		
 	}
 
-	public Long getId() {
-		return id;
+	public Long getKey() {
+		return key;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setKey(Long key) {
+		this.key = key;
 	}
 
 	public String getNome() {
@@ -62,23 +68,27 @@ public class PessoaVO implements Serializable{
 		this.genero = genero;
 	}
 
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((genero == null) ? 0 : genero.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((key == null) ? 0 : key.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
 		return result;
 	}
 
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -93,10 +103,10 @@ public class PessoaVO implements Serializable{
 				return false;
 		} else if (!genero.equals(other.genero))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (key == null) {
+			if (other.key != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!key.equals(other.key))
 			return false;
 		if (nome == null) {
 			if (other.nome != null)
@@ -110,6 +120,8 @@ public class PessoaVO implements Serializable{
 			return false;
 		return true;
 	}
+
+	
 	
 
 }

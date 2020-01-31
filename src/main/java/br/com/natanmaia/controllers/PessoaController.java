@@ -1,5 +1,8 @@
 package br.com.natanmaia.controllers;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,37 +25,48 @@ public class PessoaController {
 
 	@Autowired
 	private PessoaService pessoaService;
-	
-	@GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
+
+	@GetMapping(value = "/{id}", produces = { "application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO buscarPorId(@PathVariable("id") Long id) {
-		return pessoaService.buscarPorId(id);
-		
+		PessoaVO vo = pessoaService.buscarPorId(id);
+		vo.add(linkTo(methodOn(PessoaController.class).buscarPorId(id)).withSelfRel());
+		return vo;
 	}
-	
-	@GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
+
+	@GetMapping(produces = { "application/json", "application/xml", "application/x-yaml" })
 	public List<PessoaVO> buscarTodos() {
-		return pessoaService.buscarTodos();
-		
+		List<PessoaVO> vos = pessoaService.buscarTodos();
+		vos.stream()
+				.forEach(p -> p.add(
+						linkTo(methodOn(PessoaController.class).buscarPorId(p.getKey())).withSelfRel()
+					)
+				);
+		return vos;
+
 	}
-	
-	@PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"},
-			consumes = {"application/json", "application/xml", "application/x-yaml"})
+
+	@PostMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
+			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO criar(@RequestBody PessoaVO pessoaVO) {
-		return pessoaService.criar(pessoaVO);
-		
+		PessoaVO vo = pessoaService.criar(pessoaVO);
+		vo.add(linkTo(methodOn(PessoaController.class).buscarPorId(vo.getKey())).withSelfRel());
+		return vo;
+
 	}
-	
-	@PutMapping(produces = {"application/json", "application/xml", "application/x-yaml"},
-			consumes = {"application/json", "application/xml", "application/x-yaml"})
+
+	@PutMapping(produces = { "application/json", "application/xml", "application/x-yaml" }, consumes = {
+			"application/json", "application/xml", "application/x-yaml" })
 	public PessoaVO atualizar(@RequestBody PessoaVO pessoaVO) {
-		return pessoaService.atualizar(pessoaVO);
-		
+		PessoaVO vo = pessoaService.atualizar(pessoaVO);
+		vo.add(linkTo(methodOn(PessoaController.class).buscarPorId(vo.getKey())).withSelfRel());
+		return vo;
+
 	}
-	
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable("id") Long id) {
 		pessoaService.deletar(id);
 		return ResponseEntity.ok().build();
-		
+
 	}
 }
