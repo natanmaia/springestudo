@@ -38,7 +38,7 @@ public class MockBook {
         Books book = new Books();
         book.setAuthor("Author teste" + number);
         book.setLaunch_date(Date.from(Instant.now()));
-        book.setPrice((float) (number * 10.7));
+        book.setPrice((number * 10.7));
         book.setTitle("title teste" + number);
         book.setId(number.longValue());
         return book;
@@ -48,7 +48,7 @@ public class MockBook {
         BookVO book = new BookVO();
         book.setAuthor("Author teste" + number);
         book.setLaunch_date(Date.from(Instant.now()));
-        book.setPrice((float) (number * 10.7));
+        book.setPrice((number * 10.7));
         book.setTitle("Title teste" + number);
         book.setKey(number.longValue());
         return book;

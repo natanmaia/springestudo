@@ -21,7 +21,7 @@ public class BookVO extends ResourceSupport implements Serializable {
 
     private Date launch_date;
 
-    private Float price;
+    private Double price;
 
     private String title;
 
@@ -53,11 +53,11 @@ public class BookVO extends ResourceSupport implements Serializable {
         this.launch_date = launch_date;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

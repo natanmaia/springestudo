@@ -19,11 +19,11 @@ public class Books implements Serializable {
     @Column(nullable = false)
     private String author;
 
-    @DateTimeFormat
+    @Temporal(TemporalType.DATE)
     private Date launch_date;
 
     @Column(nullable = false)
-    private Float price;
+    private Double   price;
 
     @Column(length = 10)
     private String title;
@@ -56,11 +56,11 @@ public class Books implements Serializable {
         this.launch_date = launch_date;
     }
 
-    public Float getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Float price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
