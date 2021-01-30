@@ -1,5 +1,6 @@
 package br.com.natanmaia.controllers;
 
+//HATEOAS
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
