@@ -15,30 +15,30 @@ import br.com.natanmaia.exception.UnsuportedMathOperationException;
 
 @RestController
 @ControllerAdvice
-public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler{
+public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	@ExceptionHandler(Exception.class)
-	public final ResponseEntity<ExceptionResponse> handlerAllExceptions(
-			Exception ex, WebRequest request){
-		
-		ExceptionResponse exceptionResponse = new ExceptionResponse(
-				new Date(), 
-				ex.getMessage(), 
-				request.getDescription(false));
-		
-		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-	
-	@ExceptionHandler(UnsuportedMathOperationException.class)
-	public final ResponseEntity<ExceptionResponse> handlerBadRequestExceptions(
-			Exception ex, WebRequest request){
-		
-		ExceptionResponse exceptionResponse = new ExceptionResponse(
-				new Date(), 
-				ex.getMessage(), 
-				request.getDescription(false));
-		
-		return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-	}
-	
+    @ExceptionHandler(Exception.class)
+    public final ResponseEntity<ExceptionResponse> handlerAllExceptions(
+            Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(UnsuportedMathOperationException.class)
+    public final ResponseEntity<ExceptionResponse> handlerBadRequestExceptions(
+            Exception ex, WebRequest request) {
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+
 }
