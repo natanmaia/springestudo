@@ -1,11 +1,13 @@
 package br.com.natanmaia.controllers;
 
 //HATEOAS
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import java.util.List;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.natanmaia.data.vo.PessoaVO;
 import br.com.natanmaia.services.PessoaService;
 
+@Api(value = "API Pessoas", description = "API para desenvolvimento das requests referentes a entidade pessoas", tags = {"Pessoas"})
 @RestController
 @RequestMapping("/api/v1/pessoa")
 public class PessoaController {

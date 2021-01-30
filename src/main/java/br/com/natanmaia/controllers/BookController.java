@@ -2,6 +2,7 @@ package br.com.natanmaia.controllers;
 
 import br.com.natanmaia.data.vo.BookVO;
 import br.com.natanmaia.services.BookService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+@Api(value = "API Livros", description = "API para desenvolvimento das requests referentes a entidade livros", tags = {"Livros"})
 @RestController
 @RequestMapping("/api/v1/livros")
 public class BookController {
