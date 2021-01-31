@@ -2,9 +2,13 @@ package br.com.natanmaia.services;
 
 import br.com.natanmaia.converter.DozerConverter;
 import br.com.natanmaia.data.models.Books;
+import br.com.natanmaia.data.models.Pessoa;
 import br.com.natanmaia.data.vo.BookVO;
+import br.com.natanmaia.data.vo.PessoaVO;
 import br.com.natanmaia.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +55,21 @@ public class BookService {
 
     public List<BookVO> buscarTodos() {
         return DozerConverter.parseListObject(repository.findAll(), BookVO.class);
+    }
+
+    public Page<BookVO> findAllPaginate(Pageable pageable) {
+        var page = repository.findAll(pageable);
+
+        return page.map(this::convertToBookVO);
+    }
+
+    public Page<BookVO> findBooksByAuthor(String author, Pageable pageable) {
+        var page = repository.findBooksByAuthor(author, pageable);
+
+        return page.map(this::convertToBookVO);
+    }
+
+    private BookVO convertToBookVO(Books book) {
+        return DozerConverter.parseObject(repository.save(book), BookVO.class);
     }
 }
