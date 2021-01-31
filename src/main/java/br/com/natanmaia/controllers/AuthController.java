@@ -3,6 +3,7 @@ package br.com.natanmaia.controllers;
 import br.com.natanmaia.repository.UserRepository;
 import br.com.natanmaia.security.AccountCredentialsVO;
 import br.com.natanmaia.security.jwt.JwtTokenProvider;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,6 +21,7 @@ import java.util.Map;
 
 import static org.springframework.http.ResponseEntity.ok;
 
+@Api(value = "Autenticação")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

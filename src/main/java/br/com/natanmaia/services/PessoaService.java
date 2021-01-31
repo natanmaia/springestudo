@@ -10,6 +10,7 @@ import br.com.natanmaia.converter.DozerConverter;
 import br.com.natanmaia.data.models.Pessoa;
 import br.com.natanmaia.data.vo.PessoaVO;
 import br.com.natanmaia.repository.PessoaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PessoaService {
@@ -42,6 +43,14 @@ public class PessoaService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Sem resultados para esse ID!"));
         repository.delete(entity);
+    }
+
+    @Transactional
+    public PessoaVO disablePerson(Long id) {
+        repository.disablePerson(id);
+        var entity = repository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Sem resultados para esse ID!"));
+        return DozerConverter.parseObject(repository.save(entity), PessoaVO.class);
     }
 
     public PessoaVO buscarPorId(Long id) {

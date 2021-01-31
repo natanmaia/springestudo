@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
 
-@JsonPropertyOrder({"id", "endereco", "nome", "sobrenome", "genero"})
+@JsonPropertyOrder({"id", "endereco", "nome", "sobrenome", "genero", "enabled"})
 public class PessoaVO extends ResourceSupport implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,6 +23,8 @@ public class PessoaVO extends ResourceSupport implements Serializable {
 
     @JsonProperty("sexo")
     private String genero;
+
+    private Boolean enabled;
 
     public PessoaVO() {
 
@@ -68,56 +70,40 @@ public class PessoaVO extends ResourceSupport implements Serializable {
         this.genero = genero;
     }
 
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof PessoaVO)) return false;
+        if (!super.equals(o)) return false;
+
+        PessoaVO pessoaVO = (PessoaVO) o;
+
+        if (!getKey().equals(pessoaVO.getKey())) return false;
+        if (!getNome().equals(pessoaVO.getNome())) return false;
+        if (!getSobrenome().equals(pessoaVO.getSobrenome())) return false;
+        if (!getEndereco().equals(pessoaVO.getEndereco())) return false;
+        if (!getGenero().equals(pessoaVO.getGenero())) return false;
+        return getEnabled().equals(pessoaVO.getEnabled());
+    }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
-        result = prime * result + ((genero == null) ? 0 : genero.hashCode());
-        result = prime * result + ((key == null) ? 0 : key.hashCode());
-        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-        result = prime * result + ((sobrenome == null) ? 0 : sobrenome.hashCode());
+        result = 31 * result + getKey().hashCode();
+        result = 31 * result + getNome().hashCode();
+        result = 31 * result + getSobrenome().hashCode();
+        result = 31 * result + getEndereco().hashCode();
+        result = 31 * result + getGenero().hashCode();
+        result = 31 * result + getEnabled().hashCode();
         return result;
     }
-
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        PessoaVO other = (PessoaVO) obj;
-        if (endereco == null) {
-            if (other.endereco != null)
-                return false;
-        } else if (!endereco.equals(other.endereco))
-            return false;
-        if (genero == null) {
-            if (other.genero != null)
-                return false;
-        } else if (!genero.equals(other.genero))
-            return false;
-        if (key == null) {
-            if (other.key != null)
-                return false;
-        } else if (!key.equals(other.key))
-            return false;
-        if (nome == null) {
-            if (other.nome != null)
-                return false;
-        } else if (!nome.equals(other.nome))
-            return false;
-        if (sobrenome == null) {
-            if (other.sobrenome != null)
-                return false;
-        } else if (!sobrenome.equals(other.sobrenome))
-            return false;
-        return true;
-    }
-
-
 }
