@@ -1,7 +1,6 @@
 package br.com.natanmaia.controllers;
 
 import br.com.natanmaia.data.vo.BookVO;
-import br.com.natanmaia.data.vo.PessoaVO;
 import br.com.natanmaia.services.BookService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
