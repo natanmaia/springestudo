@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Api(tags = "FileEndPoint")
 @RestController
 @RequestMapping("api/v1/file")
@@ -19,7 +23,7 @@ public class FileController {
     @Autowired
     private FileStorageService fileStorageService;
 
-    @PostMapping("uploadFile")
+    @PostMapping("/uploadFile")
     public UploadFileResponseVO uploadFile(@RequestParam("file") MultipartFile file){
 
         String fileName = fileStorageService.storeFile(file);
@@ -30,5 +34,13 @@ public class FileController {
                 .toUriString();
 
         return new UploadFileResponseVO(fileName, fileDownloadUri, file.getContentType(), file.getSize());
+    }
+
+    @PostMapping("/uploadMultiFiles")
+    public List<UploadFileResponseVO> uploadMultiFile(@RequestParam("files") MultipartFile[] files){
+        return Arrays.asList(files)
+                .stream()
+                .map(file -> uploadFile(file))
+                .collect(Collectors.toList());
     }
 }
