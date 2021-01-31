@@ -3,6 +3,8 @@ package br.com.natanmaia.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -63,4 +65,19 @@ public class PessoaService {
         return DozerConverter.parseListObject(repository.findAll(), PessoaVO.class);
     }
 
+    public Page<PessoaVO> findAllPaginate(Pageable pageable) {
+        var page = repository.findAll(pageable);
+
+        return page.map(this::convertToPersonVO);
+    }
+
+    public Page<PessoaVO> findPersonByName(String fistname, Pageable pageable) {
+        var page = repository.findPersonByName(fistname, pageable);
+
+        return page.map(this::convertToPersonVO);
+    }
+
+    private PessoaVO convertToPersonVO(Pessoa pessoa) {
+        return DozerConverter.parseObject(repository.save(pessoa), PessoaVO.class);
+    }
 }

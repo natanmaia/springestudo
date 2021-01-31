@@ -9,6 +9,13 @@ import java.util.List;
 
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +30,9 @@ public class PessoaController {
     @Autowired
     private PessoaService pessoaService;
 
+    @Autowired
+    private PagedResourcesAssembler<PessoaVO> assembler;
+
     @GetMapping(value = "/{id}", produces = {"application/json", "application/xml", "application/x-yaml"})
     public PessoaVO buscarPorId(@PathVariable("id") Long id) {
         PessoaVO vo = pessoaService.buscarPorId(id);
@@ -33,13 +43,57 @@ public class PessoaController {
     @GetMapping(produces = {"application/json", "application/xml", "application/x-yaml"})
     public List<PessoaVO> buscarTodos() {
         List<PessoaVO> vos = pessoaService.buscarTodos();
-        vos.stream()
+        vos
                 .forEach(p -> p.add(
                         linkTo(methodOn(PessoaController.class).buscarPorId(p.getKey())).withSelfRel()
                         )
                 );
         return vos;
+    }
 
+    @GetMapping(value = "/paginate", produces = {"application/json", "application/xml", "application/x-yaml"})
+    public ResponseEntity<?> findAllPaginate(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "limit", defaultValue = "10") int limit,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+
+        var sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "nome"));
+
+        Page<PessoaVO> vos = pessoaService.findAllPaginate(pageable);
+        vos.stream()
+                .forEach(p -> p.add(
+                        linkTo(methodOn(PessoaController.class).buscarPorId(p.getKey())).withSelfRel()
+                        )
+                );
+
+        PagedResources<?> resources = assembler.toResource(vos);
+
+        return new ResponseEntity<>(resources, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/nome/{fistname}", produces = {"application/json", "application/xml", "application/x-yaml"})
+    public ResponseEntity<?> findPersonByName(
+            @PathVariable("fistname") String fistname,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "limit", defaultValue = "10") int limit,
+            @RequestParam(value = "direction", defaultValue = "asc") String direction) {
+
+        var sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(page, limit, Sort.by(sortDirection, "nome"));
+
+        Page<PessoaVO> vos = pessoaService.findPersonByName(fistname, pageable);
+        vos.stream()
+                .forEach(p -> p.add(
+                        linkTo(methodOn(PessoaController.class).buscarPorId(p.getKey())).withSelfRel()
+                        )
+                );
+
+        PagedResources<?> resources = assembler.toResource(vos);
+
+        return new ResponseEntity<>(resources, HttpStatus.OK);
     }
 
     @PostMapping(produces = {"application/json", "application/xml", "application/x-yaml"}, consumes = {
