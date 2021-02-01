@@ -1,7 +1,7 @@
 language: bash
 services: docker
 before_install:
-  - springestudo
+  - cd springestudo
   - echo "We are in the Docker Folder!"
 script:
   - docker-compose build
